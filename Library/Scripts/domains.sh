@@ -24,12 +24,22 @@ fi
 # Function to validate domain accessibility
 validate_domain_accessibility() {
     local domain=$1
-    if curl -s --head --connect-timeout 5 "$domain" | grep -q "200 OK"; then
+
+    # Check if the domain resolves to an IP
+    if ! nslookup "$domain" > /dev/null 2>&1; then
+        echo "$domain is unreachable (DNS resolution failed)"
+        echo "$domain" >> "$UNREACHABLE_DOMAINS"
+        ((unreachable_count++))
+        return
+    fi
+
+    # Check HTTP response
+    if curl -s -L --head --connect-timeout 5 "$domain" | grep -E "HTTP/[0-9.]+ [23].." > /dev/null; then
         echo "$domain is accessible"
         echo "$domain" >> "$ACCESSIBLE_DOMAINS"
         ((accessible_count++))
     else
-        echo "$domain is unreachable"
+        echo "$domain is unreachable (HTTP check failed)"
         echo "$domain" >> "$UNREACHABLE_DOMAINS"
         ((unreachable_count++))
     fi
