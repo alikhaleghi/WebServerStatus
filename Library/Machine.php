@@ -6,12 +6,12 @@ class Machine
 
         echo $output;
     }
-    public function systemStatus() {
+    public function validateDomains() {
         $output = $this->execute("domains.sh");
 
         echo $output;
     }
-    private execute($script){
+    private function execute($script){
         
         // Directory to scan 
         $directory = dirname(__FILE__) . '/Scripts';
