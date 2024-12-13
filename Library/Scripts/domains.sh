@@ -1,20 +1,23 @@
 #!/bin/bash
 
-# Path to the DirectAdmin domain list
-DA_DOMAIN_PATH="/usr/local/directadmin/data/users"
+# Base directory of the script
+BASE_DIR="$(dirname "$(realpath "$0")")"
+
+# Define the Status directory
+STATUS_DIR="$BASE_DIR/../../Status"
 
 # Output files
-ACCESSIBLE_DOMAINS="../../Status/accessible_domains.txt"
-UNREACHABLE_DOMAINS="../../Status/unreachable_domains.txt"
+ACCESSIBLE_DOMAINS="$STATUS_DIR/accessible_domains.txt"
+UNREACHABLE_DOMAINS="$STATUS_DIR/unreachable_domains.txt"
 
 # Initialize counters
 total_domains=0
 accessible_count=0
 unreachable_count=0
 
-# Check if the DirectAdmin domain directory exists
-if [[ ! -d "$DA_DOMAIN_PATH" ]]; then
-    echo "Error: DirectAdmin domain path not found at $DA_DOMAIN_PATH"
+# Ensure the Status directory exists
+if ! mkdir -p "$STATUS_DIR"; then
+    echo "Error: Unable to create directory $STATUS_DIR"
     exit 1
 fi
 
@@ -41,6 +44,15 @@ check_nameservers() {
 
 # Cleanup output files
 rm -f "$ACCESSIBLE_DOMAINS" "$UNREACHABLE_DOMAINS"
+
+# Path to the DirectAdmin domain list
+DA_DOMAIN_PATH="/usr/local/directadmin/data/users"
+
+# Check if the DirectAdmin domain directory exists
+if [[ ! -d "$DA_DOMAIN_PATH" ]]; then
+    echo "Error: DirectAdmin domain path not found at $DA_DOMAIN_PATH"
+    exit 1
+fi
 
 # Loop through each user in DirectAdmin
 for user_dir in "$DA_DOMAIN_PATH"/*; do
