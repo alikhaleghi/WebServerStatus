@@ -10,7 +10,7 @@ function displayMenu() {
     echo "Please select an option from the menu below:\n";
     echo "1. Make Scripts Executables\n";
     echo "2. Validate Domains\n";
-    echo "3. Exit\n";
+    echo "3. Cron\n";
     echo "Enter your choice: ";
 }
 
@@ -25,7 +25,7 @@ function handleChoice($choice) {
             $machine->validateDomains();
             break;
         case 3:
-            echo "Goodbye!\n";
+            $machine->systemStatus();
             exit; // Exit the script
         default:
             echo "Invalid option. Please try again.\n";

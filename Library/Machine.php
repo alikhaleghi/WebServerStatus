@@ -1,17 +1,28 @@
 <?php namespace WebServerStatus\Library;
 class Machine
 {
-    public function validateDomains() {
+    public function systemStatus() {
+        $output = $this->execute("system.sh");
+
+        echo $output;
+    }
+    public function systemStatus() {
+        $output = $this->execute("domains.sh");
+
+        echo $output;
+    }
+    private execute($script){
+        
         // Directory to scan 
         $directory = dirname(__FILE__) . '/Scripts';
         // Full path to the script
-        $scriptPath = $directory.'/domains.sh';
+        $scriptPath = $directory.'/'.$script;
 
         // Execute the script
         $output = shell_exec("bash $scriptPath");
 
         // Print the output
-        echo $output;
+        return $output;
     }
     public function makeExecutable() {
         // Directory to scan 
