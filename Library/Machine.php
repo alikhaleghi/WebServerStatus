@@ -5,7 +5,7 @@ class Machine
         // Directory to scan 
         $directory = dirname(__FILE__) . '\Scripts';
         // Full path to the script
-        $scriptPath = $directory.'/domains.sh';
+        $scriptPath = $directory.'\domains.sh';
 
         // Execute the script
         $output = shell_exec("bash $scriptPath");
