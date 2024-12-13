@@ -3,9 +3,9 @@ class Machine
 {
     public function validateDomains() {
         // Directory to scan 
-        $directory = dirname(__FILE__) . '\Scripts';
+        $directory = dirname(__FILE__) . '/Scripts';
         // Full path to the script
-        $scriptPath = $directory.'\domains.sh';
+        $scriptPath = $directory.'/domains.sh';
 
         // Execute the script
         $output = shell_exec("bash $scriptPath");
@@ -15,9 +15,9 @@ class Machine
     }
     public function makeExecutable() {
         // Directory to scan 
-        $directory = dirname(__FILE__) . '\Scripts';
+        $directory = dirname(__FILE__) . '/Scripts';
         // Check if the directory exists
-        if (!is_dir(filename: $directory)) {
+        if (!is_dir($directory)) {
             var_dump($directory);
             die("The specified directory does not exist.");
         }

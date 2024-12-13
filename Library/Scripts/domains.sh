@@ -3,9 +3,9 @@
 # Path to the DirectAdmin domain list
 DA_DOMAIN_PATH="/usr/local/directadmin/data/users"
 
-# Temporary files
-ACCESSIBLE_DOMAINS="accessible_domains.tmp"
-UNREACHABLE_DOMAINS="unreachable_domains.tmp"
+# Output files
+ACCESSIBLE_DOMAINS="../../Status/accessible_domains.txt"
+UNREACHABLE_DOMAINS="../../Status/unreachable_domains.txt"
 
 # Initialize counters
 total_domains=0
@@ -39,7 +39,7 @@ check_nameservers() {
     nslookup -type=NS "$domain" | awk '/nameserver/ {print $2}'
 }
 
-# Cleanup temporary files
+# Cleanup output files
 rm -f "$ACCESSIBLE_DOMAINS" "$UNREACHABLE_DOMAINS"
 
 # Loop through each user in DirectAdmin
@@ -66,6 +66,3 @@ echo "\nSummary:"
 echo "Total domains processed: $total_domains"
 echo "Accessible domains: $accessible_count"
 echo "Unreachable domains: $unreachable_count"
-
-# Cleanup
-rm -f "$ACCESSIBLE_DOMAINS" "$UNREACHABLE_DOMAINS"
